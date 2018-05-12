@@ -7,6 +7,11 @@
       - git
       - tree
       - mc
+    bucket_name: "alexo-test-wpc"
+    python_dependencies:
+      - boto3
+      - pytest
+      - flask
   tasks:
     - name: "Install os packages"
       yum:
@@ -19,5 +24,16 @@
         repo: https://github.com/alexomel/wpc-project.git
         dest: /home/ec2-user/wpc-project
         update: no
-     
-  
+    - name: "ensure env is configured"
+      lineinfile: 
+        path: ~/.bashrc
+        line: "export APP_BUCKET_NAME={{bucket_name}}" 
+    - name: "configure git"
+      raw: git config --global user.name "Alex Omely"
+    - raw: git config --global user.email "sasha.omely@gmail.com"   
+    - name: "install pip modules"
+      pip:
+        name: {{ item  }}
+     with_items: "{{ python_dependencies  }}"
+     executable: pip3.6
+     become: yes
