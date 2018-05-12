@@ -31,9 +31,8 @@
     - name: "configure git"
       raw: git config --global user.name "Alex Omely"
     - raw: git config --global user.email "sasha.omely@gmail.com"   
-    - name: "install pip modules"
-      pip:
-        name: {{ item  }}
-     with_items: "{{ python_dependencies  }}"
-     executable: pip3.6
-     become: yes
+    - pip:
+        name: "{{ item }}"
+        executable: pip-3.6
+      with_items: "{{ python_dependencies }}"
+      become: yes
