@@ -9,12 +9,12 @@ class TestS3Storage(unittest.TestCase):
     file_to_be_up = self.there_is_file()
     #Act
     storage.save(
-      path="home/ec2-user/wpc-project/file.txt",
+      path="wpc-project/file.txt",
       file_to_be_uploaded=file_to_be_up
     )
     #Asert
     assert False == storage.contains(path='not-ets')
-    assert storage.contains(path='home/ec2-user/wpc-project/file.txt')
+    assert storage.contains(path='wpc-project/file.txt')
 
   def there_is_s3_storage(self):
     s3 = boto3.resource('s3')
@@ -22,7 +22,7 @@ class TestS3Storage(unittest.TestCase):
     return S3MediaStorage(s3, bucket_name)
 
   def there_is_file(self):
-    my_file = open('/tmp/test.txt', 'w')
+    my_file = open('/tmp/test.txt', 'w+')
     my_file.write('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
     my_file.close()
 
